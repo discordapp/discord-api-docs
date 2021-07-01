@@ -131,6 +131,7 @@ Guilds in Discord represent an isolated collection of users and channels, and ar
 | COMMERCE                         | guild has access to use commerce features (i.e. create store channels)                                              |
 | COMMUNITY                        | guild can enable welcome screen, Membership Screening, stage channels and discovery, and receives community updates |
 | DISCOVERABLE                     | guild is able to be discovered in the directory                                                                     |
+| DISCOVERABLE_DISABLED            | guild cannot be discoverable                                                                                        |
 | FEATURABLE                       | guild is able to be featured in the directory                                                                       |
 | INVITE_SPLASH                    | guild has access to set an invite splash background                                                                 |
 | MEMBER_VERIFICATION_GATE_ENABLED | guild has enabled [Membership Screening](#DOCS_RESOURCES_GUILD/membership-screening-object)                         |
@@ -981,6 +982,40 @@ Returns a PNG image widget for the guild. Requires no permissions or authenticat
 | banner2 | smaller widget style with guild icon, name and online count. Split on the right with Discord logo                                                              | [Example](https://discord.com/api/guilds/81384788765712384/widget.png?style=banner2) |
 | banner3 | large image with guild icon, name and online count. In the footer, Discord logo on the left and "Chat Now" on the right                                        | [Example](https://discord.com/api/guilds/81384788765712384/widget.png?style=banner3) |
 | banner4 | large Discord logo at the top of the widget. Guild icon, name and online count in the middle portion of the widget and a "JOIN MY SERVER" button at the bottom | [Example](https://discord.com/api/guilds/81384788765712384/widget.png?style=banner4) |
+
+## Get Guild Discovery Metadata % GET /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/discovery-metadata
+
+Returns the [discovery metadata](#DOCS_RESOURCES_DISCOVERY/discovery-metadata-object) object for the guild. Requires the `MANAGE_GUILD` permission.
+
+## Modify Guild Discovery Metadata % PATCH /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/discovery-metadata
+
+Modify the [discovery metadata](#DOCS_RESOURCES_DISCOVERY/discovery-metadata-object) for the guild. Requires the `MANAGE_GUILD` permission. Returns the updated [discovery metadata](#DOCS_RESOURCES_DISCOVERY/discovery-metadata-object) object on success.
+
+> info
+> All parameters to this endpoint are optional and nullable. Omitting or setting a null value will set it to default.
+
+###### JSON Params
+
+| Field                         | Type                                                                         | Description                                                 | Default |
+| ----------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------- | ------- |
+| primary_category_id           | [discovery category](#DOCS_RESOURCES_DISCOVERY/discovery-category-object) id | the id of the primary discovery category                    | 0       |
+| keywords                      | array of strings                                                             | up to 10 discovery search keywords                          | null    |
+| emoji_discoverability_enabled | boolean                                                                      | whether guild info is shown when custom emojis are clicked  | true    |
+
+## Add Guild Discovery Subcategory % POST /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/discovery-categories/{category.id#DOCS_RESOURCES_DISCOVERY/discovery-category-object}
+
+Add a [discovery subcategory](#DOCS_RESOURCES_DISCOVERY/discovery-category-object) to the guild. Requires the `MANAGE_GUILD` permission.
+
+###### Response Body
+
+| Field       | Type                                                                         | Description                               |
+| ----------- | ---------------------------------------------------------------------------- | ----------------------------------------- |
+| guild_id    | snowflake                                                                    | the guild id the subcategory was added to |
+| category_id | [discovery category](#DOCS_RESOURCES_DISCOVERY/discovery-category-object) id | the id of the subcategory added           |
+
+## Remove Guild Discovery Subcategory % DELETE /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/discovery-categories/{category.id#DOCS_RESOURCES_DISCOVERY/discovery-category-object}
+
+Removes a [discovery subcategory](#DOCS_RESOURCES_DISCOVERY/discovery-category-object) from the guild. Requires the `MANAGE_GUILD` permission. Returns a 204 No Content on success.
 
 ## Get Guild Welcome Screen % GET /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/welcome-screen
 
